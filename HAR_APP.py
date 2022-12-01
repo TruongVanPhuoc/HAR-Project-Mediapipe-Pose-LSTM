@@ -18,7 +18,7 @@ from PIL import Image, ImageTk
 
 window = tk.Tk()
 window.title("GYM assistant by VP_TM") 
-window.geometry("680x660")
+window.geometry("800x600")
 window.iconbitmap(default="LLogo.ico")
 
 
@@ -115,16 +115,22 @@ def rep10():
 def rep15():
     global Rep
     Rep=15
+def repf():
+    global Rep
+    Rep=9999
 
-buttonRep5 = ck.CTkButton(window, text='Rep = 5', command=rep5, height=40, width=120, text_font=("Arial", 20), text_color="white", fg_color="red")
-buttonRep5.place(x=150, y=600)
+buttonRep5 = ck.CTkButton(window, text='Rep =   5', command=rep5, height=40, width=120, text_font=("Arial", 20), text_color="white", fg_color="red")
+buttonRep5.place(x=670, y=100)
 buttonRep10 = ck.CTkButton(window, text='Rep = 10', command=rep10, height=40, width=120, text_font=("Arial", 20), text_color="white", fg_color="red")
-buttonRep10.place(x=300, y=600)
+buttonRep10.place(x=670, y=150)
 buttonRep15 = ck.CTkButton(window, text='Rep = 15', command=rep15, height=40, width=120, text_font=("Arial", 20), text_color="white", fg_color="red")
-buttonRep15.place(x=460, y=600)
+buttonRep15.place(x=670, y=200)
+buttonRepf = ck.CTkButton(window, text='Free  ' + '  ', command=repf, height=40, width=120, text_font=("Arial", 20), text_color="white", fg_color="red")
+buttonRepf.place(x=670, y=250)
 
-button = ck.CTkButton(window, text='RESET', command=reset_counter, height=40, width=120, text_font=("Arial", 20), text_color="white", fg_color="blue")
-button.place(x=10, y=600)
+button = ck.CTkButton(window, text='RESET', command=reset_counter, height=40, width=121, text_font=("Arial", 20), text_color="white", fg_color="blue")
+button.place(x=670, y=300)
+
 
 
 classLabel = ck.CTkLabel(window, height=40, width=120, text_font=("Arial", 20), text_color="black", padx=20 )
@@ -211,6 +217,12 @@ counter = 0
 counter2 = 0
 counter3 = 0
 counter4 = 0
+calo = 0
+calo2 = 0
+calo3 = 0
+calo4 = 0
+caloth= 0
+caloths= 0
 stage = None
 Rep=5 
 while True:
@@ -278,6 +290,8 @@ while True:
                         if angle and angle2 < 90 and stage =='up':
                                 stage="down"
                                 counter +=1
+                                calo = counter * 1.5
+
                 
                         
 
@@ -301,6 +315,7 @@ while True:
                     if angle and angle2  < 50 and stage == "down":
                         stage="up"
                         counter2 +=1
+                        calo2 = counter2 * 0.5
 
                     
 
@@ -321,7 +336,7 @@ while True:
                     if angle and angle2  < 95 and stage == "up":
                         stage="down"
                         counter3 +=1
-
+                        calo3 = counter3 * 2
 
                 elif label=="Pullup":
                     angle = calculate_angle(shoulder, elbow, wrist)
@@ -340,8 +355,9 @@ while True:
                     if angle and angle2  < 60 and stage == "down":
                         stage="up"
                         counter4 +=1
-            
-                     
+                        calo4 = counter4 * 1.5
+                caloth = calo + calo2 + calo3 + calo4
+                caloths= round(caloth/timess.second,2)
 
         
     except:
@@ -353,7 +369,7 @@ while True:
     timenow= str(timess.hour)+":"+str(timess.minute)+":"+str( round(timess.second))
     daynow = str(timess.day)+"/"+str(timess.month)+"/"+str(timess.year) 
     cv2.rectangle(img, (0,0), (900,50), (245,117,16), -1)
-    cv2.rectangle(img, (0,0), (120,150), (245,117,16), -1)
+    # cv2.rectangle(img, (0,0), (120,150), (245,117,16), -1)
     cv2.putText(img, daynow,(535,12),
                      cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1, cv2.LINE_AA)
     cv2.putText(img, timenow,(535,28),
@@ -362,59 +378,59 @@ while True:
     ## List Counter
     if counter < Rep:
         cv2.putText(img,'Pushup:'+ str(counter) ,(5,70),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,0,0), 1, cv2.LINE_AA)
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (0,255,0), 2, cv2.LINE_AA)
     elif counter == Rep:
         ws.PlaySound("comPushup",ws.SND_FILENAME)
         counter = counter+1
         cv2.putText(img, 'Pushup:' + str(counter)+'Done!!!', (5, 70),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)
+                cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
     else:
          cv2.putText(img, 'Pushup:' + str(counter)+'Done!!!', (5, 70),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)
+                cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
     
     if counter2 < Rep:
         cv2.putText(img,'Hand:'+ str(counter2) ,(5,90),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,0,0), 1, cv2.LINE_AA)
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (0,255,0), 2, cv2.LINE_AA)
     elif counter2 == Rep:
         ws.PlaySound("comHand",ws.SND_FILENAME)
         counter2 = counter2+1
         cv2.putText(img, 'Pushup:' + str(counter)+'Done!!!', (5, 70),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)                
+                cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)              
     else:
         cv2.putText(img, 'Hand:' + str(counter2)+'Done!!!', (5, 90),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
     
       
    
     if counter3 < Rep:
         cv2.putText(img,'Squat:'+ str(counter3) ,(5,110),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,0,0), 1, cv2.LINE_AA)
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (0,255,0), 2, cv2.LINE_AA)
     elif counter3 == Rep:
         ws.PlaySound("comSquat",ws.SND_FILENAME)
         counter3 = counter3+1
         cv2.putText(img, 'Pushup:' + str(counter)+'Done!!!', (5, 70),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)                
+                cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)                
     else:
         cv2.putText(img, 'Squat:' + str(counter3)+'Done!!!', (5, 110),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)
+                cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
     
     if counter4 < Rep:
         cv2.putText(img,'Pullup:'+ str(counter4) ,(5,130),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,0,0), 1, cv2.LINE_AA)
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (0,255,0), 2, cv2.LINE_AA)
     elif counter4 == Rep:
         ws.PlaySound("comPushup",ws.SND_FILENAME)
         counter4 = counter4+1
         cv2.putText(img, 'Pushup:' + str(counter)+'Done!!!', (5, 70),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)
+                cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
     else:
         cv2.putText(img, 'Pullup:' + str(counter4)+'Done!!!', (5, 130),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)
+                cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
     
     
-    cv2.putText(img,'Action',(300,12), 
+    cv2.putText(img,'Action',(200,12), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
     cv2.putText(img, label, 
-                    (300,40), 
+                    (200,40), 
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)     
         # Rep data
     cv2.putText(img, 'COUNTER', (15,12), 
@@ -435,7 +451,12 @@ while True:
           cv2.putText(img, str(counter4),
                     (10,40), 
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
-        
+    ###calo
+
+    cv2.putText(img, 'Calories: ' + str(caloth) , (380, 14),
+        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+    cv2.putText(img, 'Calo/s  :' + str(caloths), (380, 34),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
         # Stage data
     cv2.putText(img, 'STAGE', (100,12), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)

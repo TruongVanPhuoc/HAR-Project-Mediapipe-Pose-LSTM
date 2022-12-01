@@ -12,7 +12,6 @@ squat_df = pd.read_csv("Squat.txt")
 hand_df = pd.read_csv("Hand.txt")
 pushup_df = pd.read_csv("Pushup.txt")
 pullup_df = pd.read_csv("Pullup.txt")
-normal_df =pd.read_csv("Normal.txt")
 X = []
 y = []
 no_of_timesteps = 10
@@ -21,30 +20,26 @@ dataset = squat_df.iloc[:,1:].values
 n_sample = len(dataset)
 for i in range(no_of_timesteps, n_sample):
     X.append(dataset[i-no_of_timesteps:i,:])
-    y.append([1, 0, 0, 0, 0 ])
+    y.append([1, 0, 0, 0])
 
 dataset = hand_df.iloc[:,1:].values
 n_sample = len(dataset)
 for i in range(no_of_timesteps, n_sample):
     X.append(dataset[i-no_of_timesteps:i,:])
-    y.append([0, 1, 0, 0, 0])
+    y.append([0, 1, 0, 0])
 
 dataset = pushup_df.iloc[:,1:].values
 n_sample = len(dataset)
 for i in range(no_of_timesteps, n_sample):
     X.append(dataset[i-no_of_timesteps:i,:])
-    y.append([0, 0 ,1, 0, 0])
+    y.append([0, 0 ,1, 0])
 
 dataset = pullup_df.iloc[:,1:].values
 n_sample = len(dataset)
 for i in range(no_of_timesteps, n_sample):
     X.append(dataset[i-no_of_timesteps:i,:])
-    y.append([0, 0, 0, 1, 0])
-dataset = normal_df.iloc[:,1:].values
-n_sample = len(dataset)
-for i in range(no_of_timesteps, n_sample):
-    X.append(dataset[i-no_of_timesteps:i,:])
-    y.append([0, 0, 0, 0, 1])
+    y.append([0, 0, 0, 1])
+
     
 X, y = np.array(X), np.array(y)
 print(X.shape, y.shape)
@@ -60,8 +55,8 @@ model.add(LSTM(units = 50, return_sequences = True))
 model.add(Dropout(0.2))
 model.add(LSTM(units = 50))
 model.add(Dropout(0.2))
-model.add(Dense(5, activation="softmax"))
+model.add(Dense(4, activation="softmax"))
 model.compile(optimizer="adam", metrics = ['accuracy'], loss = "binary_crossentropy")
 
 model.fit(X_train, y_train, epochs=20, batch_size=64,validation_data=(X_test, y_test))
-model.save("modeltestsound2.h5")
+model.save("model.h5")
