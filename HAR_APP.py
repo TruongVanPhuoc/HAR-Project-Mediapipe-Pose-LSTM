@@ -14,8 +14,6 @@ import tkinter as tk
 from tkinter import*
 from tkinter import ttk
 from PIL import Image, ImageTk 
-
-
 window = tk.Tk()
 window.title("GYM assistant by VP_TM") 
 window.geometry("800x600")
@@ -23,17 +21,13 @@ window.iconbitmap(default="LLogo.ico")
 
 
 ck.set_appearance_mode("dark")
-
 font , bg , fg  =("Century Gothic" , 15) , "#333" , '#fff'
-
 def test():
        global Rep
        Rep == 5
 
 def set_timer():
-   
     global H , S , M
-   
     H , M , S = get_seconds.get().split(':')
 
 def countdown():
@@ -57,23 +51,15 @@ def countdown():
         M -=1
         count_lb['text'] = "%s:%s:%s" % (H , int(M) , S ) 
         countdown()       
-   
     else:
-        
         timz = ( str(int(H)).zfill(2) , str(int(M)).zfill(2) , str(S).zfill(2))
-        
         time_str = '%s:%s:%s' % timz 
-
         count_lb['text'] = time_str
-
         S = int(S) -1
-
         count_lb.after(1000,countdown)
-
 def luanch():
     set_timer()
     countdown()
-
 
 detector = PoseDetector()
 label = "Warmup...."
@@ -153,7 +139,6 @@ def calculate_angle(a,b,c):
     
     radians = np.arctan2(c[1]-b[1], c[0]-b[0]) - np.arctan2(a[1]-b[1], a[0]-b[0])
     angle = np.abs(radians*180.0/np.pi)
-    
     if angle >180.0:
         angle = 360-angle
         
@@ -207,8 +192,6 @@ def detect(model, lm_list):
         label = "Pushup"
     elif results[0][3] > 0.5:
         label = "Pullup"
-    elif results[0][4] > 0.5:
-         label ="Normal"
     return label
 
 i = 0
@@ -356,8 +339,7 @@ while True:
                         stage="up"
                         counter4 +=1
                         calo4 = counter4 * 1.5
-                caloth = calo + calo2 + calo3 + calo4
-                caloths= round(caloth/timess.second,2)
+     
 
         
     except:
@@ -365,6 +347,8 @@ while True:
 
         # Render curl counter
         # Setup status box
+    caloth = calo + calo2 + calo3 + calo4
+    caloths= round(caloth/timess.second,2)
     timess= datetime.datetime.now()
     timenow= str(timess.hour)+":"+str(timess.minute)+":"+str( round(timess.second))
     daynow = str(timess.day)+"/"+str(timess.month)+"/"+str(timess.year) 
@@ -388,6 +372,7 @@ while True:
          cv2.putText(img, 'Pushup:' + str(counter)+'Done!!!', (5, 70),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
     
+    
     if counter2 < Rep:
         cv2.putText(img,'Hand:'+ str(counter2) ,(5,90),
                        cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (0,255,0), 2, cv2.LINE_AA)
@@ -400,8 +385,7 @@ while True:
         cv2.putText(img, 'Hand:' + str(counter2)+'Done!!!', (5, 90),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
     
-      
-   
+
     if counter3 < Rep:
         cv2.putText(img,'Squat:'+ str(counter3) ,(5,110),
                        cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (0,255,0), 2, cv2.LINE_AA)
@@ -413,6 +397,7 @@ while True:
     else:
         cv2.putText(img, 'Squat:' + str(counter3)+'Done!!!', (5, 110),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
+    
     
     if counter4 < Rep:
         cv2.putText(img,'Pullup:'+ str(counter4) ,(5,130),
