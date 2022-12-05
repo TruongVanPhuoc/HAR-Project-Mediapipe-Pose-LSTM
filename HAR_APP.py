@@ -347,8 +347,8 @@ while True:
 
         # Render curl counter
         # Setup status box
-    caloth = calo + calo2 + calo3 + calo4
-    caloths= round(caloth/timess.second,2)
+    # caloth = calo + calo2 + calo3 + calo4
+    # caloths= round(caloth/timess.second,2)
     timess= datetime.datetime.now()
     timenow= str(timess.hour)+":"+str(timess.minute)+":"+str( round(timess.second))
     daynow = str(timess.day)+"/"+str(timess.month)+"/"+str(timess.year) 
