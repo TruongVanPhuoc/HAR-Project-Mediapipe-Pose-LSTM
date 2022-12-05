@@ -21,7 +21,21 @@ window.iconbitmap(default="LLogo.ico")
 
 
 ck.set_appearance_mode("dark")
-font , bg , fg  =("Century Gothic" , 15) , "#333" , '#fff'
+font , bg , fg  =("Century Gothic" , 15) , "#ff0000" , '#fff'
+
+def count_time ():
+    global seconds_old, g , p
+    now = datetime.datetime.now()
+    seconds_new = now.strftime("%S")
+    if seconds_new != seconds_old:
+        seconds_old = seconds_new
+        g = g + 1
+        if g == 60:
+            g=0
+            p=p+1
+    return g, p
+
+
 def test():
        global Rep
        Rep == 5
@@ -125,7 +139,7 @@ classLabel.configure(text='SET TIME')
 
 count_lb = Label(window,text = "00:00:00", fg=fg, bg = "#000" , font = (font[0] , 20))
 count_lb.place(relx= 0.08+0.2 , rely = 0.03 , relwidth = 0.2, relheight = 0.1)
-Start_btn= Button(window , text = "SET" ,font = font ,command = luanch , fg= fg, bg = bg ,relief ='flat')
+Start_btn= Button(window , text = "SET" ,font = font ,command = luanch , fg = fg, bg = bg ,relief ='flat')
 Start_btn.place(relx= 0.4+0.2 , rely = 0.03 , relwidth = 0.2 , relheight = 0.1)
 get_seconds = ttk.Entry(window ,font = font)
 get_seconds.place(relx= 0.3+0.2 , rely = 0.03 , relwidth = 0.15 , relheight = 0.1)
@@ -208,6 +222,9 @@ caloth= 0
 caloths= 0
 stage = None
 Rep=5 
+seconds_old = 0 
+g=0
+p=0
 while True:
     success, img = cap.read()
     # img = detector.findPose(img,draw=False)
@@ -229,6 +246,7 @@ while True:
 
             #img = draw_landmark_on_image(mpDraw, results, img)
     
+
 
     #img = draw_class_on_image(label, img)
     try:
@@ -350,17 +368,21 @@ while True:
 
     # caloth = calo + calo2 + calo3 + calo4
     # caloths= round(caloth/timess.second,2)
+    
     timess= datetime.datetime.now()
-    timenow= str(timess.hour)+":"+str(timess.minute)+":"+str( round(timess.second))
-    daynow = str(timess.day)+"/"+str(timess.month)+"/"+str(timess.year) 
-    # caloth = calo + calo2 + calo3 + calo4
-    # caloths= round(timess.second,2)
+    g, p = count_time()
+    timenow= str(timess.hour).zfill(2)+":"+str(timess.minute).zfill(2)
+    daynow = str(timess.day).zfill(2)+"/"+str(timess.month).zfill(2)+"/"+str(timess.year)
+    caloth = calo + calo2 + calo3 + calo4
+    caloths= round( (caloth /(g+p*60)),2)
     cv2.rectangle(img, (0,0), (900,50), (245,117,16), -1)
     # cv2.rectangle(img, (0,0), (120,150), (245,117,16), -1)
     cv2.putText(img, daynow,(535,12),
-                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1, cv2.LINE_AA)
+                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
     cv2.putText(img, timenow,(535,28),
-                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1, cv2.LINE_AA)    
+                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
+    cv2.putText(img,str(p).zfill(2)+":"+str(g).zfill(2),(535,44),
+                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)       
     
     ## List Counter
     if counter < Rep:
