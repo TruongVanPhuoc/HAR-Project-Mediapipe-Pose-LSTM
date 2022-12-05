@@ -347,11 +347,12 @@ while True:
 
         # Render curl counter
         # Setup status box
-    caloth = calo + calo2 + calo3 + calo4
-    caloths= round(caloth/timess.second,2)
+
     timess= datetime.datetime.now()
     timenow= str(timess.hour)+":"+str(timess.minute)+":"+str( round(timess.second))
     daynow = str(timess.day)+"/"+str(timess.month)+"/"+str(timess.year) 
+    # caloth = calo + calo2 + calo3 + calo4
+    # caloths= round(timess.second,2)
     cv2.rectangle(img, (0,0), (900,50), (245,117,16), -1)
     # cv2.rectangle(img, (0,0), (120,150), (245,117,16), -1)
     cv2.putText(img, daynow,(535,12),
