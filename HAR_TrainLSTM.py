@@ -59,4 +59,4 @@ model.add(Dense(4, activation="softmax"))
 model.compile(optimizer="adam", metrics = ['accuracy'], loss = "binary_crossentropy")
 
 model.fit(X_train, y_train, epochs=20, batch_size=64,validation_data=(X_test, y_test))
-model.save("model.h5")
+model.save("modeládasd.h5")

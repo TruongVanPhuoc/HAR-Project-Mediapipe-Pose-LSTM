@@ -10,7 +10,7 @@ pose = mpPose.Pose()
 mpDraw = mp.solutions.drawing_utils
 
 lm_list = []
-label = "Normal"
+label = "ABC"
 no_of_frames = 600
 
 def make_landmark_timestep(results):
