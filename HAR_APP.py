@@ -291,7 +291,7 @@ while True:
                         if angle and angle2 < 90 and stage =='up':
                                 stage="down"
                                 counter +=1
-                                calo = counter * 1.5
+                                calo = counter * 0.34
 
                 
                         
@@ -316,7 +316,7 @@ while True:
                     if angle and angle2  < 50 and stage == "down":
                         stage="up"
                         counter2 +=1
-                        calo2 = counter2 * 0.5
+                        calo2 = counter2 * 0.2
 
                     
 
@@ -337,7 +337,7 @@ while True:
                     if angle and angle2  < 95 and stage == "up":
                         stage="down"
                         counter3 +=1
-                        calo3 = counter3 * 2
+                        calo3 = counter3 * 0.32
 
                 elif label=="Pullup":
                     angle = calculate_angle(shoulder, elbow, wrist)
@@ -356,22 +356,16 @@ while True:
                     if angle and angle2  < 60 and stage == "down":
                         stage="up"
                         counter4 +=1
-                        calo4 = counter4 * 1.5
+                        calo4 = counter4 * 1
      
 
         
     except:
         pass
 
-        # Render curl counter
-        # Setup status box
-
-    # caloth = calo + calo2 + calo3 + calo4
-    # caloths= round(caloth/timess.second,2)
-    
     timess= datetime.datetime.now()
     g, p = count_time()
-    timenow= str(timess.hour).zfill(2)+":"+str(timess.minute).zfill(2)
+    # timenow= str(timess.hour).zfill(2)+":"+str(timess.minute).zfill(2)
     daynow = str(timess.day).zfill(2)+"/"+str(timess.month).zfill(2)+"/"+str(timess.year)
     caloth = calo + calo2 + calo3 + calo4
     caloths= round( (caloth /(g+p*60)),2)
@@ -379,10 +373,10 @@ while True:
     # cv2.rectangle(img, (0,0), (120,150), (245,117,16), -1)
     cv2.putText(img, daynow,(535,12),
                      cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
-    cv2.putText(img, timenow,(535,28),
+    cv2.putText(img, str(p).zfill(2)+":"+str(g).zfill(2),(535,28),
                      cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
-    cv2.putText(img,str(p).zfill(2)+":"+str(g).zfill(2),(535,44),
-                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)       
+    # cv2.putText(img,str(p).zfill(2)+":"+str(g).zfill(2),(535,44),
+    #                  cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)       
     
     ## List Counter
     if counter < Rep:

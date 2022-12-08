@@ -87,8 +87,6 @@ def detect(model, lm_list):
         label = "Pushup"
     elif results[0][3] > 0.5:
         label = "Pullup"
-    elif results[0][4] > 0.5:
-         label ="Normal"
     return label
 
 i = 0
