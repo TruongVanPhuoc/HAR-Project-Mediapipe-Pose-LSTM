@@ -398,7 +398,7 @@ while True:
     elif counter2 == Rep:
         ws.PlaySound("comHand",ws.SND_FILENAME)
         counter2 = counter2+1
-        cv2.putText(img, 'Pushup:' + str(counter)+'Done!!!', (5, 70),
+        cv2.putText(img, 'Hand:' + str(counter)+'Done!!!', (5, 70),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)              
     else:
         cv2.putText(img, 'Hand:' + str(counter2)+'Done!!!', (5, 90),
@@ -411,7 +411,7 @@ while True:
     elif counter3 == Rep:
         ws.PlaySound("comSquat",ws.SND_FILENAME)
         counter3 = counter3+1
-        cv2.putText(img, 'Pushup:' + str(counter)+'Done!!!', (5, 70),
+        cv2.putText(img, 'Squat:' + str(counter)+'Done!!!', (5, 70),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)                
     else:
         cv2.putText(img, 'Squat:' + str(counter3)+'Done!!!', (5, 110),
@@ -422,14 +422,13 @@ while True:
         cv2.putText(img,'Pullup:'+ str(counter4) ,(5,130),
                        cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (0,255,0), 2, cv2.LINE_AA)
     elif counter4 == Rep:
-        ws.PlaySound("comPushup",ws.SND_FILENAME)
+        ws.PlaySound("comPullup",ws.SND_FILENAME)
         counter4 = counter4+1
-        cv2.putText(img, 'Pushup:' + str(counter)+'Done!!!', (5, 70),
+        cv2.putText(img, 'Pullup:' + str(counter)+'Done!!!', (5, 70),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
     else:
         cv2.putText(img, 'Pullup:' + str(counter4)+'Done!!!', (5, 130),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
-    
     
     cv2.putText(img,'Action',(200,12), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
