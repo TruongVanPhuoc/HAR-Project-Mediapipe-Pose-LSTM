@@ -367,8 +367,8 @@ while True:
     g, p = count_time()
     # timenow= str(timess.hour).zfill(2)+":"+str(timess.minute).zfill(2)
     daynow = str(timess.day).zfill(2)+"/"+str(timess.month).zfill(2)+"/"+str(timess.year)
-    caloth = calo + calo2 + calo3 + calo4
-    caloths= round( (caloth /(g+p*60)),2)
+    caloth = round((calo + calo2 + calo3 + calo4),2)
+    caloths= round((caloth /(g+p*60)),2)
     cv2.rectangle(img, (0,0), (900,50), (245,117,16), -1)
     # cv2.rectangle(img, (0,0), (120,150), (245,117,16), -1)
     cv2.putText(img, daynow,(535,12),
