@@ -463,7 +463,7 @@ while True:
 
     cv2.putText(img, 'Calories: ' + str(round(caloth,2)) , (380, 14),
         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-    cv2.putText(img, 'Calo/s  :' + str(round(caloths),2), (380, 34),
+    cv2.putText(img, 'Calo/s  :' + str(round(caloths,2)), (380, 34),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
         # Stage data
     cv2.putText(img, 'STAGE', (100,12), 
