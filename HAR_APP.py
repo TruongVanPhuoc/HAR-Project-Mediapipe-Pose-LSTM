@@ -19,7 +19,6 @@ window.title("GYM assistant by VP_TM")
 window.geometry("800x600")
 window.iconbitmap(default="LLogo.ico")
 
-bu an con cac
 ck.set_appearance_mode("dark")
 font , bg , fg  =("Century Gothic" , 15) , "#ff0000" , '#fff'
 
