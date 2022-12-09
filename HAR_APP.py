@@ -369,7 +369,9 @@ while True:
                         stage="up"
                         counter4 +=1
                         calo4 = counter4 * 1
-     
+
+
+                caloth = calo + calo2 + calo3 + calo4
 
     except:
         pass
@@ -378,7 +380,6 @@ while True:
     g, p = count_time()
     # timenow= str(timess.hour).zfill(2)+":"+str(timess.minute).zfill(2)
     daynow = str(timess.day).zfill(2)+"/"+str(timess.month).zfill(2)+"/"+str(timess.year)
-    caloth = calo + calo2 + calo3 + calo4
     caloths= caloth /(g+p*60)
     cv2.rectangle(img, (0,0), (900,50), (245,117,16), -1)
     # cv2.rectangle(img, (0,0), (120,150), (245,117,16), -1)
