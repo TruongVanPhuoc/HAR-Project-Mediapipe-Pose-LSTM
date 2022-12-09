@@ -4,7 +4,6 @@ import numpy as np
 import cv2
 import mediapipe as mp
 import numpy as np
-import threading
 import tensorflow as tf
 from cvzone.PoseModule import PoseDetector
 import pyglet
@@ -14,6 +13,7 @@ import tkinter as tk
 from tkinter import*
 from tkinter import ttk
 from PIL import Image, ImageTk 
+from threading import Thread
 window = tk.Tk()
 window.title("GYM assistant by VP_TM") 
 window.geometry("800x600")
@@ -35,10 +35,19 @@ def count_time ():
             p=p+1
     return g, p
 
+def playHand():
+    ws.PlaySound("comHand", ws.SND_FILENAME)
+  
 
-def test():
-       global Rep
-       Rep == 5
+def playPull():
+    ws.PlaySound("comPullup", ws.SND_FILENAME)
+def playPush():
+    ws.PlaySound("comPushup", ws.SND_FILENAME) 
+def playsquat():
+    ws.PlaySound("comSquat", ws.SND_FILENAME)
+def playEndtime():
+    ws.PlaySound("Endtime", ws.SND_FILENAME)       
+
 
 def set_timer():
     global H , S , M
@@ -58,7 +67,9 @@ def countdown():
         Start_btn['stat'] = 'normal'
         count_lb['text'] = "00:00:00"
         H , S , M = 0,0,0 
-        ws.PlaySound("endtime",ws.SND_FILENAME)
+        t2 = Thread(target=playEndtime)
+        t2.start()
+
     elif int(S) == 0 :
         S = 59
         M = int(M)
@@ -108,13 +119,13 @@ def reset_counter():
 
 def rep5():
     global Rep
-    Rep=5
+    Rep=4
 def rep10():
     global Rep
-    Rep=10
+    Rep=9
 def rep15():
     global Rep
-    Rep=15
+    Rep=14
 def repf():
     global Rep
     Rep=9999
@@ -195,16 +206,16 @@ def detect(model, lm_list):
     global label
     lm_list = np.array(lm_list)
     lm_list = np.expand_dims(lm_list, axis=0)
-    print(lm_list.shape)
+    #print(lm_list.shape)
     results = model.predict(lm_list)
     print(results)
-    if results[0][0] > 0.5:
+    if results[0][0] > 0.7:
         label = "Squat"
-    elif results[0][1] > 0.5:
+    elif results[0][1] > 0.7:
         label = "Hand"
-    elif results[0][2] > 0.5:
+    elif results[0][2] > 0.7:
         label = "Pushup"
-    elif results[0][3] > 0.5:
+    elif results[0][3] > 0.7:
         label = "Pullup"
     return label
 
@@ -214,6 +225,7 @@ counter = 0
 counter2 = 0
 counter3 = 0
 counter4 = 0
+c = c2 = c3 = c4 = 0
 calo = 0
 calo2 = 0
 calo3 = 0
@@ -221,7 +233,7 @@ calo4 = 0
 caloth= 0
 caloths= 0
 stage = None
-Rep=5 
+Rep=4 
 seconds_old = 0 
 g=0
 p=0
@@ -240,7 +252,7 @@ while True:
             lm_list.append(c_lm)
             if len(lm_list) == n_time_steps:
                 # predict
-                t1 = threading.Thread(target=detect, args=(model, lm_list,))
+                t1 = Thread(target=detect, args=(model, lm_list,))
                 t1.start()
                 lm_list = []
 
@@ -359,7 +371,6 @@ while True:
                         calo4 = counter4 * 1
      
 
-        
     except:
         pass
 
@@ -367,26 +378,23 @@ while True:
     g, p = count_time()
     # timenow= str(timess.hour).zfill(2)+":"+str(timess.minute).zfill(2)
     daynow = str(timess.day).zfill(2)+"/"+str(timess.month).zfill(2)+"/"+str(timess.year)
-    caloth = round((calo + calo2 + calo3 + calo4),2)
-    caloths= round((caloth /(g+p*60)),2)
+    caloth = calo + calo2 + calo3 + calo4
+    caloths= caloth /(g+p*60)
     cv2.rectangle(img, (0,0), (900,50), (245,117,16), -1)
     # cv2.rectangle(img, (0,0), (120,150), (245,117,16), -1)
     cv2.putText(img, daynow,(535,12),
                      cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
     cv2.putText(img, str(p).zfill(2)+":"+str(g).zfill(2),(535,28),
                      cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
-    # cv2.putText(img,str(p).zfill(2)+":"+str(g).zfill(2),(535,44),
-    #                  cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)       
-    
+  
     ## List Counter
     if counter < Rep:
         cv2.putText(img,'Pushup:'+ str(counter) ,(5,70),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (0,255,0), 2, cv2.LINE_AA)
     elif counter == Rep:
-        ws.PlaySound("comPushup",ws.SND_FILENAME)
+        t3 = Thread(target=playPush)
+        t3.start()
         counter = counter+1
-        cv2.putText(img, 'Pushup:' + str(counter)+'Done!!!', (5, 70),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
     else:
          cv2.putText(img, 'Pushup:' + str(counter)+'Done!!!', (5, 70),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
@@ -396,23 +404,21 @@ while True:
         cv2.putText(img,'Hand:'+ str(counter2) ,(5,90),
                        cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (0,255,0), 2, cv2.LINE_AA)
     elif counter2 == Rep:
-        ws.PlaySound("comHand",ws.SND_FILENAME)
+        t4= Thread(target=playHand)
+        t4.start()
         counter2 = counter2+1
-        cv2.putText(img, 'Hand:' + str(counter)+'Done!!!', (5, 70),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)              
     else:
-        cv2.putText(img, 'Hand:' + str(counter2)+'Done!!!', (5, 90),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
+        cv2.putText(img, 'Hand:' + str(counter2)+'Done!!!', (5,90),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA) 
     
 
     if counter3 < Rep:
         cv2.putText(img,'Squat:'+ str(counter3) ,(5,110),
                        cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (0,255,0), 2, cv2.LINE_AA)
     elif counter3 == Rep:
-        ws.PlaySound("comSquat",ws.SND_FILENAME)
-        counter3 = counter3+1
-        cv2.putText(img, 'Squat:' + str(counter)+'Done!!!', (5, 70),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)                
+        t4 = Thread(target=playsquat)
+        t4.start()
+        counter3 = counter3+1         
     else:
         cv2.putText(img, 'Squat:' + str(counter3)+'Done!!!', (5, 110),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
@@ -422,10 +428,9 @@ while True:
         cv2.putText(img,'Pullup:'+ str(counter4) ,(5,130),
                        cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (0,255,0), 2, cv2.LINE_AA)
     elif counter4 == Rep:
-        ws.PlaySound("comPullup",ws.SND_FILENAME)
+        t5 = Thread(target=playPull)
+        t5.start()
         counter4 = counter4+1
-        cv2.putText(img, 'Pullup:' + str(counter)+'Done!!!', (5, 70),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
     else:
         cv2.putText(img, 'Pullup:' + str(counter4)+'Done!!!', (5, 130),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6 , (255,0,0), 2, cv2.LINE_AA)
@@ -456,9 +461,9 @@ while True:
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
     ###calo
 
-    cv2.putText(img, 'Calories: ' + str(caloth) , (380, 14),
+    cv2.putText(img, 'Calories: ' + str(round(caloth,2)) , (380, 14),
         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-    cv2.putText(img, 'Calo/s  :' + str(caloths), (380, 34),
+    cv2.putText(img, 'Calo/s  :' + str(round(caloths),2), (380, 34),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
         # Stage data
     cv2.putText(img, 'STAGE', (100,12), 
