@@ -9,16 +9,23 @@ import mediapipe as mp
 from numpy import around
 import pandas as pd
 import datetime
+import winsound as ws
+from threading import Thread
 # Đọc ảnh từ webcam
 cap = cv2.VideoCapture(0)
 print(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 print(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 # Khởi tạo thư viện mediapipe
+def playy():
+    ws.PlaySound("comPushup", block = False)
+
 while cap.isOpened():
     ret, img = cap.read()
     timess= datetime.datetime.now()
     timenow= str(timess.hour)+":"+str(timess.minute)+":"+str(around(timess.second))
-    daynow = str(timess.day)+"/"+str(timess.month)+"/"+str(timess.year)         
+    daynow = str(timess.day)+"/"+str(timess.month)+"/"+str(timess.year)    
+    T = Thread(target=playy)  
+    T.start()   
     cv2.rectangle(img, (0,0), (900,50), (245,117,16), -1)
     cv2.rectangle(img, (0,0), (120,150), (245,117,16), -1)
     cv2.putText(img, daynow,(535,12),
@@ -35,6 +42,8 @@ while cap.isOpened():
         # Stage data
     cv2.putText(img, 'STAGE', (100,12), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
+    
+
     cv2.imshow('Mediapipe Feed', img)                
     if cv2.waitKey(10) & 0xFF == ord('q'):
         break
