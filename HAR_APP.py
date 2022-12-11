@@ -19,7 +19,6 @@ window.title("GYM assistant by VP_TM")
 window.geometry("800x600")
 window.iconbitmap(default="LLogo.ico")
 
-
 ck.set_appearance_mode("dark")
 font , bg , fg  =("Century Gothic" , 15) , "#ff0000" , '#fff'
 
@@ -303,9 +302,8 @@ while True:
                         if angle and angle2 < 90 and stage =='up':
                                 stage="down"
                                 counter +=1
-                                calo = counter * 0.34
+                                
 
-                
                         
 
                 elif label=="Hand":
@@ -328,7 +326,7 @@ while True:
                     if angle and angle2  < 50 and stage == "down":
                         stage="up"
                         counter2 +=1
-                        calo2 = counter2 * 0.2
+                        
 
                     
 
@@ -349,7 +347,7 @@ while True:
                     if angle and angle2  < 95 and stage == "up":
                         stage="down"
                         counter3 +=1
-                        calo3 = counter3 * 0.32
+                        
 
                 elif label=="Pullup":
                     angle = calculate_angle(shoulder, elbow, wrist)
@@ -368,14 +366,19 @@ while True:
                     if angle and angle2  < 60 and stage == "down":
                         stage="up"
                         counter4 +=1
-                        calo4 = counter4 * 1
+                        
 
 
-                caloth = calo + calo2 + calo3 + calo4
+                
 
     except:
         pass
 
+    calo = counter * 0.34
+    calo2 = counter2 * 0.2
+    calo3 = counter3 * 0.32
+    calo4 = counter4 * 1
+    caloth = calo + calo2 + calo3 + calo4
     timess= datetime.datetime.now()
     g, p = count_time()
     # timenow= str(timess.hour).zfill(2)+":"+str(timess.minute).zfill(2)
