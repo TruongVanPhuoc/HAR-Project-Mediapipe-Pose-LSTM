@@ -36,8 +36,6 @@ def count_time ():
 
 def playHand():
     ws.PlaySound("comHand", ws.SND_FILENAME)
-  
-
 def playPull():
     ws.PlaySound("comPullup", ws.SND_FILENAME)
 def playPush():
@@ -111,10 +109,14 @@ def reset_counter():
     global counter2
     global counter3
     global counter4
+    global g
+    global p
     counter = 0 
     counter2 = 0
     counter3 = 0
     counter4 = 0
+    g = 0
+    p = 0
 
 def rep5():
     global Rep
@@ -164,8 +166,7 @@ def calculate_angle(a,b,c):
     radians = np.arctan2(c[1]-b[1], c[0]-b[0]) - np.arctan2(a[1]-b[1], a[0]-b[0])
     angle = np.abs(radians*180.0/np.pi)
     if angle >180.0:
-        angle = 360-angle
-        
+        angle = 360-angle   
     return angle 
 
 def make_landmark_timestep(results):
@@ -177,7 +178,6 @@ def make_landmark_timestep(results):
         c_lm.append(lm.visibility)
     return c_lm
 
-
 def draw_landmark_on_image(mpDraw, results, img):
     mpDraw.draw_landmarks(img, results.pose_landmarks, mpPose.POSE_CONNECTIONS)
     for id, lm in enumerate(results.pose_landmarks.landmark):
@@ -185,7 +185,6 @@ def draw_landmark_on_image(mpDraw, results, img):
         cx, cy = int(lm.x * w), int(lm.y * h)
         cv2.circle(img, (cx, cy), 5, (0, 255, 0), cv2.FILLED)
     return img
-
 
 def draw_class_on_image(label, img):
     font = cv2.FONT_HERSHEY_SIMPLEX
@@ -199,7 +198,6 @@ def draw_class_on_image(label, img):
                 thickness,
                 lineType)
     return img
-
 
 def detect(model, lm_list):
     global label
@@ -220,22 +218,13 @@ def detect(model, lm_list):
 
 i = 0
 warmup_frames = 10
-counter = 0 
-counter2 = 0
-counter3 = 0
-counter4 = 0
-c = c2 = c3 = c4 = 0
-calo = 0
-calo2 = 0
-calo3 = 0
-calo4 = 0
-caloth= 0
-caloths= 0
+counter = counter2 = counter3 = counter4 = 0
+calo = calo2 = calo3 = calo4 = caloth= caloths= 0
 stage = None
 Rep=4 
 seconds_old = 0 
-g=0
-p=0
+g=p=0
+
 while True:
     success, img = cap.read()
     # img = detector.findPose(img,draw=False)
@@ -302,9 +291,6 @@ while True:
                         if angle and angle2 < 90 and stage =='up':
                                 stage="down"
                                 counter +=1
-                                
-
-                        
 
                 elif label=="Hand":
 
@@ -318,18 +304,12 @@ while True:
                                 tuple(np.multiply(elbow2 , [640, 480]).astype(int)), 
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA
                                         )
-                    
-                    
                     # Curl counter logic
                     if angle and angle2  > 140:
                         stage = "down"
                     if angle and angle2  < 50 and stage == "down":
                         stage="up"
                         counter2 +=1
-                        
-
-                    
-
 
                 elif label=="Squat":
                     angle = calculate_angle(hip, knee, ankle)
@@ -348,7 +328,6 @@ while True:
                         stage="down"
                         counter3 +=1
                         
-
                 elif label=="Pullup":
                     angle = calculate_angle(shoulder, elbow, wrist)
                     cv2.putText(img, str(round( angle ,2)),
@@ -367,10 +346,6 @@ while True:
                         stage="up"
                         counter4 +=1
                         
-
-
-                
-
     except:
         pass
 
