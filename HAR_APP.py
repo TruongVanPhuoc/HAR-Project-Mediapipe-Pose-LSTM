@@ -115,13 +115,9 @@ def reset_counter():
     counter2 = 0
     counter3 = 0
     counter4 = 0
-<<<<<<< HEAD
     g=1
     p=0
-=======
-    g = 0
-    p = 0
->>>>>>> 7786e6ac3958113ce20df229bf0030a4531ac011
+
 
 def rep5():
     global Rep
@@ -223,7 +219,6 @@ def detect(model, lm_list):
 
 i = 0
 warmup_frames = 10
-<<<<<<< HEAD
 counter = 0 
 counter2 = 0
 counter3 = 0
@@ -234,10 +229,6 @@ calo3 = 0
 calo4 = 0
 caloth= 0
 caloths= 0
-=======
-counter = counter2 = counter3 = counter4 = 0
-calo = calo2 = calo3 = calo4 = caloth= caloths= 0
->>>>>>> 7786e6ac3958113ce20df229bf0030a4531ac011
 stage = None
 Rep=4 
 seconds_old = 0 
