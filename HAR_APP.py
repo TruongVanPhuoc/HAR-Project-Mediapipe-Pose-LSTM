@@ -19,7 +19,6 @@ window.title("GYM assistant by VP_TM")
 window.geometry("800x600")
 window.iconbitmap(default="LLogo.ico")
 
-
 ck.set_appearance_mode("dark")
 font , bg , fg  =("Century Gothic" , 15) , "#ff0000" , '#fff'
 
@@ -37,8 +36,6 @@ def count_time ():
 
 def playHand():
     ws.PlaySound("comHand", ws.SND_FILENAME)
-  
-
 def playPull():
     ws.PlaySound("comPullup", ws.SND_FILENAME)
 def playPush():
@@ -118,8 +115,13 @@ def reset_counter():
     counter2 = 0
     counter3 = 0
     counter4 = 0
+<<<<<<< HEAD
     g=1
     p=0
+=======
+    g = 0
+    p = 0
+>>>>>>> 7786e6ac3958113ce20df229bf0030a4531ac011
 
 def rep5():
     global Rep
@@ -169,8 +171,7 @@ def calculate_angle(a,b,c):
     radians = np.arctan2(c[1]-b[1], c[0]-b[0]) - np.arctan2(a[1]-b[1], a[0]-b[0])
     angle = np.abs(radians*180.0/np.pi)
     if angle >180.0:
-        angle = 360-angle
-        
+        angle = 360-angle   
     return angle 
 
 def make_landmark_timestep(results):
@@ -182,7 +183,6 @@ def make_landmark_timestep(results):
         c_lm.append(lm.visibility)
     return c_lm
 
-
 def draw_landmark_on_image(mpDraw, results, img):
     mpDraw.draw_landmarks(img, results.pose_landmarks, mpPose.POSE_CONNECTIONS)
     for id, lm in enumerate(results.pose_landmarks.landmark):
@@ -190,7 +190,6 @@ def draw_landmark_on_image(mpDraw, results, img):
         cx, cy = int(lm.x * w), int(lm.y * h)
         cv2.circle(img, (cx, cy), 5, (0, 255, 0), cv2.FILLED)
     return img
-
 
 def draw_class_on_image(label, img):
     font = cv2.FONT_HERSHEY_SIMPLEX
@@ -204,7 +203,6 @@ def draw_class_on_image(label, img):
                 thickness,
                 lineType)
     return img
-
 
 def detect(model, lm_list):
     global label
@@ -225,6 +223,7 @@ def detect(model, lm_list):
 
 i = 0
 warmup_frames = 10
+<<<<<<< HEAD
 counter = 0 
 counter2 = 0
 counter3 = 0
@@ -235,11 +234,15 @@ calo3 = 0
 calo4 = 0
 caloth= 0
 caloths= 0
+=======
+counter = counter2 = counter3 = counter4 = 0
+calo = calo2 = calo3 = calo4 = caloth= caloths= 0
+>>>>>>> 7786e6ac3958113ce20df229bf0030a4531ac011
 stage = None
 Rep=4 
 seconds_old = 0 
-g=0
-p=0
+g=p=0
+
 while True:
     success, img = cap.read()
     # img = detector.findPose(img,draw=False)
@@ -306,10 +309,6 @@ while True:
                         if angle and angle2 < 90 and stage =='up':
                                 stage="down"
                                 counter +=1
-                                calo = counter * 0.34
-
-                
-                        
 
                 elif label=="Hand":
 
@@ -323,18 +322,12 @@ while True:
                                 tuple(np.multiply(elbow2 , [640, 480]).astype(int)), 
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA
                                         )
-                    
-                    
                     # Curl counter logic
                     if angle and angle2  > 140:
                         stage = "down"
                     if angle and angle2  < 50 and stage == "down":
                         stage="up"
                         counter2 +=1
-                        calo2 = counter2 * 0.2
-
-                    
-
 
                 elif label=="Squat":
                     angle = calculate_angle(hip, knee, ankle)
@@ -352,8 +345,7 @@ while True:
                     if angle and angle2  < 95 and stage == "up":
                         stage="down"
                         counter3 +=1
-                        calo3 = counter3 * 0.32
-
+                        
                 elif label=="Pullup":
                     angle = calculate_angle(shoulder, elbow, wrist)
                     cv2.putText(img, str(round( angle ,2)),
@@ -371,14 +363,15 @@ while True:
                     if angle and angle2  < 60 and stage == "down":
                         stage="up"
                         counter4 +=1
-                        calo4 = counter4 * 1
-
-
-                caloth = calo + calo2 + calo3 + calo4
-
+                        
     except:
         pass
 
+    calo = counter * 0.34
+    calo2 = counter2 * 0.2
+    calo3 = counter3 * 0.32
+    calo4 = counter4 * 1
+    caloth = calo + calo2 + calo3 + calo4
     timess= datetime.datetime.now()
     g, p = count_time()
     # timenow= str(timess.hour).zfill(2)+":"+str(timess.minute).zfill(2)
