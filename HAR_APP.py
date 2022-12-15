@@ -112,10 +112,14 @@ def reset_counter():
     global counter2
     global counter3
     global counter4
+    global g
+    global p
     counter = 0 
     counter2 = 0
     counter3 = 0
     counter4 = 0
+    g=1
+    p=0
 
 def rep5():
     global Rep
@@ -225,7 +229,6 @@ counter = 0
 counter2 = 0
 counter3 = 0
 counter4 = 0
-c = c2 = c3 = c4 = 0
 calo = 0
 calo2 = 0
 calo3 = 0
